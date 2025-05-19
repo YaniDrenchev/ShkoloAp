@@ -122,11 +122,17 @@ public class Student extends User
                 String line = scanner.nextLine();
                 if (line.trim().isEmpty()) continue;
                 String[] parts = line.split(" - ");
-                if (parts.length != 2) continue;
+                // [userNameOfTeacher, Subj, Grades]
+                if (parts.length != 3) continue;
 
-                String subjectName = parts[0];
-                String[] gradeStrings = parts[1].split(",");
-                Teacher teacher = new Teacher();
+                Teacher teacher = null;
+                for (Teacher teach : Main.teachers){
+                    if (teach.getUsername().equals(parts[0])){
+                        teacher = teach;
+                    }
+                }
+                String subjectName = parts[1];
+                String[] gradeStrings = parts[2].split(",");
                 Subject subject = new Subject(subjectName, teacher);
                 for (String gradeStr : gradeStrings) {
                     try {

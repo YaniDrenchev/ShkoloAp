@@ -8,6 +8,7 @@ enum AdminCommand {
 public class Main {
     static Scanner scanner = new Scanner(System.in);
     static User currentUser = null;
+    static List<Teacher> teachers = User.loadTeachers();
     static List<Student> students = User.loadStudents();
 
 
@@ -79,7 +80,12 @@ public class Main {
                         System.out.println("Not a student");
                         break;
                     } else {
-                        Teacher teacher = new Teacher();
+                        Teacher teacher = null;
+                        for(Teacher teach: teachers) {
+                            if (teach.getUsername().equals(currentUser.getUsername())) {
+                                teacher = teach;
+                            }
+                        }
                         Subject subject1 = new Subject(subject, teacher);
                         for (Student student : students) {
                             if (student.getUsername().equals(username2)) {
@@ -109,7 +115,8 @@ public class Main {
                             Set<Subject> subjects = map.keySet();
                             for (Subject subject1 : subjects) {
                                 List<Double> grades = map.get(subject1);
-                                System.out.println("Grades for " + subject1 + " are: ");
+                                System.out.println("Grades for " + subject1 + " Name of Teacher:"
+                                        + subject1.getTeacher() + " are: ");
                                 for (Double grade2 : grades) {
                                     System.out.println(grade2);
                                 }
@@ -117,10 +124,13 @@ public class Main {
                         }
                     }
                     break;
-
             }
         }
     }
+
+    // TODO Add teachers to file
+    // TODO Add Klasses (klasove)
+    // TODO Add KlasniRykovoditeli
 
     public static void main(String[] args) {
         User user;

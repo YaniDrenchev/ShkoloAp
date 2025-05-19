@@ -104,6 +104,28 @@ public class User {
         return students;
     }
 
+    public static List<Teacher> loadTeachers() {
+        File users = new File("/Users/yanidrenchev/Desktop/Teachers.txt");
+        Scanner fileReader;
+        try {
+            fileReader = new Scanner(users);
+        } catch (FileNotFoundException e) {
+            return null;
+        }
+        List<Teacher> teachers = new ArrayList<>();
+        while (fileReader.hasNextLine()) {
+            String line = fileReader.nextLine();
+            String[] elements = line.split(" - ");
+            User user = User.findUserByUsername(elements[0]);
+            if (user == null) {
+                continue;
+            }
+            Teacher newTeacher = new Teacher(user.getUsername(), user.getPassword(), user.getRole(), elements[1], elements[2]);
+            teachers.add(newTeacher);
+        }
+        return teachers;
+    }
+
 
     public String getPassword() {
         return password;
